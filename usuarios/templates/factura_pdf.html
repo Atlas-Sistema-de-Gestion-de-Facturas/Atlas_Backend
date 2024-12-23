@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura PDF</title>
+</head>
+<body>
+    <h1>Factura No: {{ factura.numero_factura }}</h1>
+    <p>Cliente: {{ factura.cliente.nombre }}</p>
+    <p>Monto Original: {{ factura.monto_total|floatformat:2 }}</p>
+
+    {% if penalizacion > 0 %}
+        <p>Penalización: {{ penalizacion|floatformat:2 }}</p>
+        <p>Monto Total Actualizado: {{ monto_total_actualizado|floatformat:2 }}</p>
+    {% endif %}
+
+    <p>Fecha de Emisión: {{ factura.fecha_emision }}</p>
+    <p>Fecha de Vencimiento: {{ factura.fecha_vencimiento }}</p>
+    <p>Estado: {{ factura.estado }}</p>
+</body>
+</html>
