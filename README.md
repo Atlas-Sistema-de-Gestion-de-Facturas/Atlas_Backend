@@ -44,12 +44,17 @@ El sistema de gestión de facturas utiliza [**Neon**](https://neon.tech/) como h
    cp .env.example .env
    ```
 
-6. Para crear a los administradores de nuestra aplicación reutilizamos el comando por defecto de Django, usa el siguiente comando en la consola:
+6. Para crear a los administradores de nuestra aplicación reutilizamos el comando por defecto de Django, usa el siguiente comando en la consola
    ```bash
    python manage.py createsuperuser
    ```
 
-7. Ejecutamos el comando para iniciar el servidor en desarrollo
+7. Hacemos las migraciones correspondientes
+   ```bash
+   python manage.py makemigrations && python manage.py migrate
+   ```
+
+8. Ejecutamos el comando para iniciar el servidor en desarrollo
    ```bash
    python manage.py runserver
    ```
