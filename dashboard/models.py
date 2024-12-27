@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from datetime import date, timedelta
 
+
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nombre, password=None, rol=None):
         if not email:
@@ -15,11 +16,12 @@ class UsuarioManager(BaseUserManager):
     def create_superuser(self, email, nombre, password):
         return self.create_user(email, nombre, password, rol="Administrador")
 
+
 class Usuario(AbstractBaseUser):
     ROL_CHOICES = [
-        ('Administrador', 'Administrador'),
-        ('Contador', 'Contador'),
-        ('Gerente', 'Gerente'),
+        ("Administrador", "Administrador"),
+        ("Contador", "Contador"),
+        ("Gerente", "Gerente"),
     ]
     email = models.EmailField(unique=True)
     nombre = models.CharField(max_length=100)
@@ -28,13 +30,11 @@ class Usuario(AbstractBaseUser):
 
     objects = UsuarioManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nombre']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["nombre"]
 
     def __str__(self):
         return f"{self.nombre} ({self.rol})"
-
-
 
 
 class Cliente(models.Model):
@@ -55,35 +55,38 @@ class Proveedor(models.Model):
 
 class Factura(models.Model):
     ESTADO_CHOICES = [
-        ('Pagada', 'Pagada'),
-        ('Pendiente', 'Pendiente'),
-        ('Vencida', 'Vencida'),
+        ("Pagada", "Pagada"),
+        ("Pendiente", "Pendiente"),
+        ("Vencida", "Vencida"),
     ]
 
     numero_factura = models.CharField(max_length=50, unique=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, blank=True, null=True)
+    cliente = models.ForeignKey(
+        Cliente, on_delete=models.CASCADE, blank=True, null=True
+    )
+    proveedor = models.ForeignKey(
+        Proveedor, on_delete=models.CASCADE, blank=True, null=True
+    )
     fecha_emision = models.DateField()
     fecha_vencimiento = models.DateField()
     monto_total = models.DecimalField(max_digits=10, decimal_places=2)
-    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='Pendiente')
+    estado = models.CharField(
+        max_length=20, choices=ESTADO_CHOICES, default="Pendiente"
+    )
     penalizacion = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def actualizar_estado(self):
         """Actualiza el estado y calcula penalizaciones si está vencida."""
-        if self.estado == 'Pagada':
+        if self.estado == "Pagada":
             return
         hoy = date.today()
         if hoy > self.fecha_vencimiento:
-            self.estado = 'Vencida'
+            self.estado = "Vencida"
             dias_vencidos = (hoy - self.fecha_vencimiento).days
             self.penalizacion = self.monto_total * 0.10 * dias_vencidos
         else:
-            self.estado = 'Pendiente'
+            self.estado = "Pendiente"
         self.save()
 
     def __str__(self):
         return f"Factura {self.numero_factura} - {self.estado}"
-    
-
-    
