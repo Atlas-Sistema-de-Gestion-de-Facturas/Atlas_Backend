@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import (
-    RegistroView,
     LoginView,
     UsuarioCRUDView,
     ClienteView,
@@ -18,7 +17,6 @@ from .views import (
 
 urlpatterns = [
     # Registro y autenticación
-    path("registro/", RegistroView.as_view(), name="registro"),
     path("login/", LoginView.as_view(), name="login"),
     # Gestión de usuarios
     path("", UsuarioCRUDView.as_view(), name="usuarios_crud"),
@@ -46,7 +44,7 @@ urlpatterns = [
     # Rol de usuario
     path("rol/", ObtenerRolUsuarioView.as_view(), name="obtener_rol_usuario"),
     path(
-        "dashboard/estadisticas/",
+        "estadisticas/",
         EstadisticasDashboardView.as_view(),
         name="dashboard_estadisticas",
     ),
