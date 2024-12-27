@@ -35,10 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [
-    "localhost",
-    env('DOMAIN'),
-]
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -54,7 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     # Apps personalizadas
-    'usuarios',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -148,7 +145,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de la autenticación personalizada
-AUTH_USER_MODEL = 'usuarios.Usuario'
+AUTH_USER_MODEL = 'dashboard.Usuario'
 
 # Configuración de REST Framework
 REST_FRAMEWORK = {
@@ -158,9 +155,7 @@ REST_FRAMEWORK = {
 }
 
 # Configuración de CORS
-CORS_ALLOWED_ORIGINS = [
-    env('CORS_ALLOWED_ORIGINS'),  # React Frontend
-]
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS')
 
 # Configuración JWT
 from datetime import timedelta
