@@ -20,6 +20,7 @@ from .serializers import (
 )
 from datetime import date
 
+
 class LoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
